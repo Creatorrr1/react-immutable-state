@@ -2,6 +2,9 @@ import { useState } from "react";
 import { initialWorkouts, generateWorkout } from "./Workouts.js";
 import "./App.css";
 
+import WorkoutStatus from'./workoutStatus'
+import AddWorkout from "./addWorkout.js";
+
 function App() {
   const [workouts, setWorkouts] = useState(initialWorkouts);
 
@@ -31,26 +34,29 @@ function App() {
     setWorkouts(newWorkoutList);
   };
 
+  // const completeWorkout = (workout) => {
+  //   // figuring out the new state
+  //   // change the complete property to true
+  //   const newWorkoutList = workouts.map((checkWorkout) => {
+  //     if (checkWorkout === workout) {
+  //       const newWorkoutList2 = {...checkWorkout, complete: true}
+  //       return newWorkoutList2
+  //     }
+  //     return checkWorkout
+  //   })
+
+  //   // ask react to update the old state to the new state
+  //   setWorkouts(newWorkoutList)
+  // }
+
   return (
     <div className="App">
       <h1>🏋️‍♀️Workout Generator</h1>
-      <button onClick={addNewWorkout}>Add New Workout</button>
+      {/* <button onClick={addNewWorkout}>Add New Workout</button> */}
+      <AddWorkout addNewWorkout={addNewWorkout}/>
       <ul>
         {workouts.map((workout, index) => (
-          <li key={index}>
-            <p>
-              {workout.sets}x sets of{" "}
-              <strong>
-                {workout.reps}x{workout.exercise}
-              </strong>{" "}
-              with {workout.rest} seconds rest
-            </p>
-            {!workout.done && (
-              <button onClick={(e) => completeWorkout(workout)}>Done</button>
-            )}
-            {workout.done && <p>✅</p>}
-            <button onClick={(e) => deleteWorkout(workout)}>Delete</button>
-          </li>
+          <WorkoutStatus workout={workout} index={index} completeWorkout={completeWorkout} deleteWorkout={deleteWorkout}/>
         ))}
       </ul>
     </div>
